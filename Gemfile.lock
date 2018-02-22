@@ -1,15 +1,24 @@
+PATH
+  remote: .
+  specs:
+    ttsttb (0.0.1)
+      nokogiri
+
 GEM
   remote: https://rubygems.org/
   specs:
     mini_portile2 (2.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    rake (10.5.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
+  bundler (~> 1.16)
+  rake (~> 10.0)
+  ttsttb!
 
 BUNDLED WITH
-   1.13.7
+   1.16.1
