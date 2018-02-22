@@ -1,8 +1,11 @@
-# Ttsttb
+# TTS TTB library
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ttsttb`. To experiment with that code, run `bin/console` for an interactive prompt.
+[TTS and TTB value of Forex](http://www.murc-kawasesouba.jp/fx/past_3month.php) is  provided by MUFG. Major information provider of TTS and TTB is MUFG in Japan but the data is not provided by commonly used data format like CSV and JSON to handle by program for ease.
 
-TODO: Delete this and the text above, and describe your gem
+I created Ruby gem to get the TTS and TTB corresponding to the passed date. You can get hash of currency code key and value of TTS and TTB.
+
+__Caution__ : This library has no test and exception handling is not tested to cover all the source data.
+
 
 ## Installation
 
@@ -23,8 +26,14 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-% irb
-irb(main):011:0> pp Ttsttb.find(Date.new(2018,1,1)); nil
+% bin/console
+irb(main):001:0> require 'pp'
+true
+irb(main):001:0> require 'date'
+true
+irb(main):003:0> pp Ttsttb.find(Date.new(2018, 1, 7))['USD']['tts']
+108.52
+irb(main):004:0> pp Ttsttb.find(Date.new(2018, 1, 1)); nil
 {"USD"=>
   {"currency"=>{"en"=>"US Dollar", "ja"=>"米ドル"},
    "code"=>"USD",
