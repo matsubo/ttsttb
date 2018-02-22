@@ -10,7 +10,7 @@ module Ttsttb
     require 'open-uri'
     require 'nokogiri'
 
-    doc = Nokogiri::HTML(open(url))
+    doc = Nokogiri::HTML(open(url, redirect: false))
     doc.xpath('//table[1]/tr').each do |tr|
       tds = tr.xpath('.//td')
 

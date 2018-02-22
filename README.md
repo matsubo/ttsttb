@@ -25,6 +25,9 @@ Or install it yourself as:
 
 ## Usage
 
+- Common error
+  - `find` method throws `OpenURI::HTTPRedirect` exception if data source is not found. 
+
 ```ruby
 % bin/console
 irb(main):001:0> require 'pp'
