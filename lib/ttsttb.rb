@@ -16,7 +16,7 @@ module Ttsttb
 
     require 'open-uri'
 
-    doc = Nokogiri::HTML(open(url, redirect: false))
+    doc = Nokogiri::HTML(URI.open(url, :redirect => false))
     scrape(doc)
   end
 
@@ -47,6 +47,7 @@ module Ttsttb
   def self.normalize(value)
     value = value.strip
     return nil if value == 'unquoted'
+
     value.to_f
   end
 
