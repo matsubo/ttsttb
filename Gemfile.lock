@@ -10,14 +10,14 @@ GEM
     mini_portile2 (2.4.0)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    rake (10.5.0)
+    rake (13.0.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bundler (~> 2)
-  rake (~> 10.0)
+  rake (~> 13.0)
   ttsttb!
 
 BUNDLED WITH
