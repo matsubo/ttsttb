@@ -1,4 +1,4 @@
-# TTS TTB library
+# TTS, TTB, TTM library
 
 [![Gem Version](https://badge.fury.io/rb/ttsttb.svg)](https://badge.fury.io/rb/ttsttb)
 ![Gem](https://img.shields.io/gem/dt/ttsttb)
