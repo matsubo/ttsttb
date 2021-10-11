@@ -7,11 +7,18 @@ RSpec.describe Ttsttb do
       expect(rows[currency][type]).to eq value
     end
   end
-  shared_examples 'invalid' do |currency, type, date, _value|
-    it 'should raise exception' do
+  shared_examples 'data is empty' do |currency, type, date, _value|
+    it 'should raise NoMethodError' do
       expect do
         Ttsttb.find(date)[currency][type]
       end.to raise_error NoMethodError
+    end
+  end
+  shared_examples 'data is not provided' do |currency, type, date, _value|
+    it 'should raise RuntimeError' do
+      expect do
+        Ttsttb.find(date)[currency][type]
+      end.to raise_error RuntimeError
     end
   end
 
@@ -39,8 +46,28 @@ RSpec.describe Ttsttb do
         }
       }
     },
-    'invalid' => {
+    'data is empty' => {
       '1990-01-18' => {
+        'EUR' => {
+          'tts' => 146.55,
+          'ttb' => 144.55,
+          'ttm' => 145.55
+        }
+      }
+    },
+    # very far from MUFG range
+    'data is not provided' => {
+      '199-01-01' => {
+        'USD' => {
+          'tts' => 146.55,
+          'ttb' => 144.55,
+          'ttm' => 145.55
+        }
+      }
+    },
+    # out of MUFG range
+    'data is not provided' => {
+      '1890-01-18' => {
         'EUR' => {
           'tts' => 146.55,
           'ttb' => 144.55,

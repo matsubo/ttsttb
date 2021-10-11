@@ -10,26 +10,27 @@ module Ttsttb
     # TODO
     raise 'Today is not supported yet.' if date == Date.today
 
-    begin
-      doc = Nokogiri::HTML(URI.open(url(date), :redirect => false).read.encode('utf-8'))
-      scrape(doc)
-    rescue OpenURI::HTTPRedirect
-      raise 'Data is not found on the MUFG page corresponding to the specificate date.'
-    end
+    raise 'Old data before 1990/1/1 is not provided.' if date < Date.new(1990, 1, 1)
+
+    doc = Nokogiri::HTML(html(date))
+    scrape(doc)
   end
 
-  def self.url(date)
+  def self.html(date)
     url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
                  { :ymd => date.strftime('%y%m%d') })
-    URI.open(url, :redirect => false)
-    url
+
+    return URI.open(url, :redirect => false).read.encode('utf-8')
   rescue OpenURI::HTTPRedirect
-    format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
-           {
-             :y => date.strftime('%Y'),
-             :m => date.strftime('%m'),
-             :d => date.strftime('%d')
-           })
+    url = format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
+                 {
+      :y => date.strftime('%Y'),
+      :m => date.strftime('%m'),
+      :d => date.strftime('%d')
+    })
+
+    return URI.open(url, :redirect => false).read.encode('utf-8')
+
   end
 
   # parse document
