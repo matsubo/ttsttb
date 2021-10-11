@@ -1,18 +1,17 @@
 require_relative '../../lib/ttsttb'
 
 RSpec.describe Ttsttb do
-
   shared_examples 'valid' do |currency, type, date, value|
     it 'should return valid price' do
       rows = Ttsttb.find(date)
       expect(rows[currency][type]).to eq value
     end
   end
-  shared_examples 'invalid' do |currency, type, date, value|
+  shared_examples 'invalid' do |currency, type, date, _value|
     it 'should raise exception' do
-      expect {
+      expect do
         Ttsttb.find(date)[currency][type]
-      }.to raise_error NoMethodError
+      end.to raise_error NoMethodError
     end
   end
 
@@ -23,21 +22,21 @@ RSpec.describe Ttsttb do
         'USD' => {
           'tts' => 146.55,
           'ttb' => 144.55,
-          'ttm' => 145.55,
-        },
+          'ttm' => 145.55
+        }
       },
       # recent data
       '2019-10-18' => {
         'USD' => {
           'tts' => 109.71,
           'ttb' => 107.71,
-          'ttm' => 108.71,
+          'ttm' => 108.71
         },
         'EUR' => {
           'tts' => 122.45,
           'ttb' => 119.45,
-          'ttm' => 120.95,
-        },
+          'ttm' => 120.95
+        }
       }
     },
     'invalid' => {
@@ -45,7 +44,7 @@ RSpec.describe Ttsttb do
         'EUR' => {
           'tts' => 146.55,
           'ttb' => 144.55,
-          'ttm' => 145.55,
+          'ttm' => 145.55
         }
       }
     }

@@ -20,11 +20,11 @@ module Ttsttb
 
   def self.url(date)
     url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
-           { :ymd => date.strftime('%y%m%d') })
+                 { :ymd => date.strftime('%y%m%d') })
     URI.open(url, :redirect => false)
-    return url
+    url
   rescue OpenURI::HTTPRedirect
-    return format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
+    format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
            {
              :y => date.strftime('%Y'),
              :m => date.strftime('%m'),
