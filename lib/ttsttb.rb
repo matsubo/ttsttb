@@ -18,12 +18,13 @@ module Ttsttb
     end
   end
 
-  def url(date)
-    format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
+  def self.url(date)
+    url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
            { :ymd => date.strftime('%y%m%d') })
     URI.open(url, :redirect => false)
+    return url
   rescue OpenURI::HTTPRedirect
-    format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
+    return format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
            {
              :y => date.strftime('%Y'),
              :m => date.strftime('%m'),
@@ -39,15 +40,18 @@ module Ttsttb
 
       next unless tds[0]
 
+      tts = normalize(tds[3].content)
+      ttb = normalize(tds[4].content)
+
       rows[tds[2].content] = {
         'currency' => {
           'en' => tds[0].content,
           'ja' => tds[1].content
         },
         'code' => tds[2].content,
-        'tts' => normalize(tds[3].content),
-        'ttb' => normalize(tds[4].content),
-        'ttm' => get_ttm(normalize(tds[3].content), normalize(tds[4].content))
+        'tts' => tts,
+        'ttb' => ttb,
+        'ttm' => get_ttm(tts, ttb)
       }
     end
 
@@ -68,6 +72,6 @@ module Ttsttb
 
     return nil unless tts && ttb
 
-    (BigDecimal(tts.to_s) + (BigDecimal(ttb.to_s) / 2)).round(2).to_f
+    ((BigDecimal(tts.to_s) + BigDecimal(ttb.to_s)) / 2).round(2).to_f
   end
 end

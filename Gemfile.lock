@@ -8,6 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    diff-lcs (1.4.4)
     mini_portile2 (2.6.1)
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
@@ -20,6 +21,19 @@ GEM
     rake (13.0.6)
     regexp_parser (2.1.1)
     rexml (3.2.5)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.2)
     rubocop (1.22.1)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
@@ -40,6 +54,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2)
   rake (~> 13.0)
+  rspec
   rubocop
   ttsttb!
 
