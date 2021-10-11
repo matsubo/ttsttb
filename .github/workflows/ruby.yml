@@ -44,6 +44,5 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
-        # Coverage report is already created in the previous rspec command but this parameter is required so execute nothing.
-        coverageCommand: echo
+        coverageCommand: bundle exec rspec
 
