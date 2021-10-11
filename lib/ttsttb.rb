@@ -1,5 +1,7 @@
 require 'ttsttb/version'
 require 'nokogiri'
+require 'open-uri'
+require 'date'
 
 # Scrape TTS and TTB data from MURC.
 module Ttsttb
@@ -8,29 +10,25 @@ module Ttsttb
     # TODO
     raise 'Today is not supported yet.' if date == Date.today
 
-    require 'date'
-
     begin
-      url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%s', date.strftime('%y%m%d'))
-      URI.open(url, :redirect => false)
-    rescue OpenURI::HTTPRedirect => e
-      url = format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%s&m=%s&d=%s&c=',
-                   date.strftime('%Y'),
-                   date.strftime('%m'),
-                   date.strftime('%d'),
-                  )
-    end
-
-    
-
-    require 'open-uri'
-
-    begin
-      doc = Nokogiri::HTML(URI.open(url, :redirect => false).read.encode('utf-8'))
+      doc = Nokogiri::HTML(URI.open(url(date), :redirect => false).read.encode('utf-8'))
       scrape(doc)
-    rescue OpenURI::HTTPRedirect => e
+    rescue OpenURI::HTTPRedirect
       raise 'Data is not found on the MUFG page corresponding to the specificate date.'
     end
+  end
+
+  def url(date)
+    format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
+           { :ymd => date.strftime('%y%m%d') })
+    URI.open(url, :redirect => false)
+  rescue OpenURI::HTTPRedirect
+    format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
+           {
+             :y => date.strftime('%Y'),
+             :m => date.strftime('%m'),
+             :d => date.strftime('%d')
+           })
   end
 
   # parse document
@@ -70,6 +68,6 @@ module Ttsttb
 
     return nil unless tts && ttb
 
-    (BigDecimal(tts.to_s) + BigDecimal(ttb.to_s) / 2).round(2).to_f
+    (BigDecimal(tts.to_s) + (BigDecimal(ttb.to_s) / 2)).round(2).to_f
   end
 end
