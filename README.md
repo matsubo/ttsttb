@@ -1,5 +1,9 @@
 # TTS TTB library
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/2f4736d38eaa5d261aae/maintainability)](https://codeclimate.com/github/matsubo/ttsttb/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2f4736d38eaa5d261aae/test_coverage)](https://codeclimate.com/github/matsubo/ttsttb/test_coverage)
+
+
 [TTS and TTB value of Forex](http://www.murc-kawasesouba.jp/fx/past_3month.php) is  provided by MUFG. Major information provider of TTS and TTB is MUFG in Japan but the data is not provided by commonly used data format like CSV and JSON to handle by program for ease.
 
 I created Ruby gem to get the TTS and TTB corresponding to the passed date. You can get hash of currency code key and value of TTS and TTB.
