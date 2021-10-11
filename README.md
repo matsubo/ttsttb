@@ -1,5 +1,7 @@
 # TTS TTB library
 
+[![Gem Version](https://badge.fury.io/rb/ttsttb.svg)](https://badge.fury.io/rb/ttsttb)
+![Gem](https://img.shields.io/gem/dt/ttsttb)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2f4736d38eaa5d261aae/maintainability)](https://codeclimate.com/github/matsubo/ttsttb/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2f4736d38eaa5d261aae/test_coverage)](https://codeclimate.com/github/matsubo/ttsttb/test_coverage)
 
@@ -28,8 +30,6 @@ Or install it yourself as:
 
 ## Usage
 
-- Common error
-  - `find` method throws `OpenURI::HTTPRedirect` exception if data source is not found. 
 
 ```ruby
 % bin/console
