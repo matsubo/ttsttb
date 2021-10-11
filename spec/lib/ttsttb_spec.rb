@@ -63,10 +63,8 @@ RSpec.describe Ttsttb do
           'ttb' => 144.55,
           'ttm' => 145.55
         }
-      }
-    },
-    # out of MUFG range
-    'data is not provided' => {
+      },
+      # out of MUFG range
       '1890-01-18' => {
         'EUR' => {
           'tts' => 146.55,

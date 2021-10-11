@@ -20,17 +20,16 @@ module Ttsttb
     url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
                  { :ymd => date.strftime('%y%m%d') })
 
-    return URI.open(url, :redirect => false).read.encode('utf-8')
+    URI.open(url, :redirect => false).read.encode('utf-8')
   rescue OpenURI::HTTPRedirect
     url = format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
                  {
-      :y => date.strftime('%Y'),
-      :m => date.strftime('%m'),
-      :d => date.strftime('%d')
-    })
+                   :y => date.strftime('%Y'),
+                   :m => date.strftime('%m'),
+                   :d => date.strftime('%d')
+                 })
 
-    return URI.open(url, :redirect => false).read.encode('utf-8')
-
+    URI.open(url, :redirect => false).read.encode('utf-8')
   end
 
   # parse document
