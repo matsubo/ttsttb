@@ -1,23 +1,35 @@
 require 'ttsttb/version'
 require 'nokogiri'
+require 'open-uri'
+require 'date'
 
 # Scrape TTS and TTB data from MURC.
 module Ttsttb
   # Execute scraping
   def self.find(date)
     # TODO
-    throw 'Data of today is not supported yet.' if date == Date.today
+    raise 'Today is not supported yet.' if date == Date.today
 
-    # TODO
-    throw 'Old data is not supported yet.' if date == Date.new(2006, 1, 1)
+    begin
+      doc = Nokogiri::HTML(URI.open(url(date), :redirect => false).read.encode('utf-8'))
+      scrape(doc)
+    rescue OpenURI::HTTPRedirect
+      raise 'Data is not found on the MUFG page corresponding to the specificate date.'
+    end
+  end
 
-    require 'date'
-    url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%s', date.strftime('%y%m%d'))
-
-    require 'open-uri'
-
-    doc = Nokogiri::HTML(URI.open(url, :redirect => false))
-    scrape(doc)
+  def self.url(date)
+    url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%<ymd>s',
+                 { :ymd => date.strftime('%y%m%d') })
+    URI.open(url, :redirect => false)
+    url
+  rescue OpenURI::HTTPRedirect
+    format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%<y>s&m=%<m>s&d=%<d>s&c=',
+           {
+             :y => date.strftime('%Y'),
+             :m => date.strftime('%m'),
+             :d => date.strftime('%d')
+           })
   end
 
   # parse document
@@ -28,15 +40,18 @@ module Ttsttb
 
       next unless tds[0]
 
+      tts = normalize(tds[3].content)
+      ttb = normalize(tds[4].content)
+
       rows[tds[2].content] = {
         'currency' => {
           'en' => tds[0].content,
           'ja' => tds[1].content
         },
         'code' => tds[2].content,
-        'tts' => normalize(tds[3].content),
-        'ttb' => normalize(tds[4].content),
-        'ttm' => get_ttm(normalize(tds[3].content), normalize(tds[4].content))
+        'tts' => tts,
+        'ttb' => ttb,
+        'ttm' => get_ttm(tts, ttb)
       }
     end
 
@@ -57,6 +72,6 @@ module Ttsttb
 
     return nil unless tts && ttb
 
-    (BigDecimal(tts.to_s) + BigDecimal(ttb.to_s) / 2).round(2).to_f
+    ((BigDecimal(tts.to_s) + BigDecimal(ttb.to_s)) / 2).round(2).to_f
   end
 end
