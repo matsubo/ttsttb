@@ -6,18 +6,31 @@ module Ttsttb
   # Execute scraping
   def self.find(date)
     # TODO
-    throw 'Data of today is not supported yet.' if date == Date.today
-
-    # TODO
-    throw 'Old data is not supported yet.' if date == Date.new(2006, 1, 1)
+    raise 'Today is not supported yet.' if date == Date.today
 
     require 'date'
-    url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%s', date.strftime('%y%m%d'))
+
+    begin
+      url = format('http://www.murc-kawasesouba.jp/fx/past/index.php?id=%s', date.strftime('%y%m%d'))
+      URI.open(url, :redirect => false)
+    rescue OpenURI::HTTPRedirect => e
+      url = format('http://www.murc-kawasesouba.jp/fx/past_3month_result.php?y=%s&m=%s&d=%s&c=',
+                   date.strftime('%Y'),
+                   date.strftime('%m'),
+                   date.strftime('%d'),
+                  )
+    end
+
+    
 
     require 'open-uri'
 
-    doc = Nokogiri::HTML(URI.open(url, :redirect => false))
-    scrape(doc)
+    begin
+      doc = Nokogiri::HTML(URI.open(url, :redirect => false).read.encode('utf-8'))
+      scrape(doc)
+    rescue OpenURI::HTTPRedirect => e
+      raise 'Data is not found on the MUFG page corresponding to the specificate date.'
+    end
   end
 
   # parse document
