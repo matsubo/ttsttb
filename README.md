@@ -14,15 +14,9 @@ I created Ruby gem to get the TTS and TTB corresponding to the passed date. You 
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add by bundler
 
-```ruby
-gem 'ttsttb'
-```
-
-And then execute:
-
-    $ bundle
+    $ bundle add ttsttb
 
 Or install it yourself as:
 
