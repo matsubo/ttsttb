@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ttsttb (0.2.4)
+    ttsttb (0.2.5)
       nokogiri
 
 GEM
