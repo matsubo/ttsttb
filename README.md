@@ -26,7 +26,7 @@ Or install it yourself as:
 
 
 ```ruby
-% bin/console
+% bundle exec irb
 irb(main):001:0> require 'pp'
 true
 irb(main):001:0> require 'date'
